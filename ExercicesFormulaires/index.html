@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercices Formulaires</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="./index.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Commande de plat</h1>
+      <form id="formulaire" action="">
+        <label for="nom">Nom : </label>
+        <input type="text" id="nom" name="nom" placeholder="Jean Bon" />
+
+        <label for="email">Email : </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="jambon@miam.fr"
+        />
+        <div class="radio">
+          <label for="plat">🍽️ Plats :</label>
+          <ul>
+            <li>
+              Boeuf Bourguignon<input
+                type="radio"
+                id="plat"
+                name="plat"
+                value="Boeuf Bourguignon"
+              />
+            </li>
+            <li>
+              Choucroute garnie<input
+                type="radio"
+                id="plat"
+                name="plat"
+                value="Choucroute garnie"
+              />
+            </li>
+            <li>
+              Spaguetti carbonara<input
+                type="radio"
+                id="plat"
+                name="plat"
+                value="Spaguetti carbonara"
+              />
+            </li>
+          </ul>
+        </div>
+
+        <label for="service">Service</label>
+        <select name="service" id="service">
+          <option value="Sur place">Sur place</option>
+          <option value="A emporter">À emporter</option>
+          <option value="A livrer">À livrer</option>
+        </select>
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+  </body>
+</html>
