@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guide complet du stockage client JavaScript</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        color: white;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
+
+      .intro-section {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+      }
+
+      .intro-section h2 {
+        color: #4a5568;
+        margin-bottom: 15px;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      .comparison-table {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: linear-gradient(135deg, #4a5568, #2d3748);
+        color: white;
+      }
+
+      th {
+        padding: 20px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 1.1em;
+      }
+
+      td {
+        padding: 20px;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: top;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f7fafc;
+      }
+
+      tr:hover {
+        background-color: #edf2f7;
+        transition: background-color 0.3s ease;
+      }
+
+      .feature-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+        margin: 2px;
+      }
+
+      .badge-localstorage {
+        background: #bee3f8;
+        color: #2b6cb0;
+      }
+
+      .badge-sessionstorage {
+        background: #c6f6d5;
+        color: #276749;
+      }
+
+      .badge-cookies {
+        background: #fed7d7;
+        color: #c53030;
+      }
+
+      .badge-indexeddb {
+        background: #e9d8fd;
+        color: #6b46c1;
+      }
+
+      .code-block {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9em;
+        margin: 10px 0;
+        overflow-x: auto;
+      }
+
+      .code-comment {
+        color: #a0aec0;
+        font-style: italic;
+      }
+
+      .code-keyword {
+        color: #fbb6ce;
+      }
+
+      .code-string {
+        color: #68d391;
+      }
+
+      .code-function {
+        color: #63b3ed;
+      }
+
+      .method-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .method-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #667eea;
+      }
+
+      .method-card h3 {
+        color: #4a5568;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .method-icon {
+        font-size: 1.5em;
+      }
+
+      .use-cases {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .use-case-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .use-case-item {
+        background: #f7fafc;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid #68d391;
+      }
+
+      .demo-section {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-top: 30px;
+      }
+
+      .demo-controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .demo-controls input {
+        padding: 10px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 1em;
+      }
+
+      .demo-controls button {
+        padding: 12px 20px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background 0.3s ease;
+      }
+
+      .demo-controls button:hover {
+        background: #5a67d8;
+      }
+
+      .demo-output {
+        background: #f7fafc;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+        border-left: 4px solid #667eea;
+      }
+
+      @media (max-width: 768px) {
+        th,
+        td {
+          padding: 12px 8px;
+          font-size: 0.9em;
+        }
+
+        .header h1 {
+          font-size: 2em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📚 Guide Complet du Stockage Client JavaScript</h1>
+        <p>LocalStorage, SessionStorage, Cookies et IndexedDB</p>
+      </div>
+
+      <div class="intro-section">
+        <h2>🎯 Introduction au Stockage Côté Client</h2>
+        <p>
+          Le stockage côté client permet aux applications web de conserver des
+          données directement dans le navigateur de l'utilisateur. Cette
+          fonctionnalité est essentielle pour créer des expériences utilisateur
+          riches et personnalisées sans dépendre constamment du serveur.
+        </p>
+      </div>
+
+      <div class="comparison-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Fonctionnalité</th>
+              <th>LocalStorage</th>
+              <th>SessionStorage</th>
+              <th>Cookies</th>
+              <th>IndexedDB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Persistance</strong></td>
+              <td>Persistant (jusqu'à suppression manuelle)</td>
+              <td>Session navigateur</td>
+              <td>Date d'expiration définie</td>
+              <td>Persistant</td>
+            </tr>
+            <tr>
+              <td><strong>Capacité</strong></td>
+              <td>~5-10 MB</td>
+              <td>~5-10 MB</td>
+              <td>~4 KB par cookie</td>
+              <td>≥ 50% espace disque</td>
+            </tr>
+            <tr>
+              <td><strong>Accès Serveur</strong></td>
+              <td>Non</td>
+              <td>Non</td>
+              <td>Oui (automatique)</td>
+              <td>Non</td>
+            </tr>
+            <tr>
+              <td><strong>Syntaxe</strong></td>
+              <td>
+                <div class="code-block">
+                  <span class="code-comment">// Stocker</span><br />
+                  localStorage.<span class="code-function">setItem</span>(<span
+                    class="code-string"
+                    >'clé'</span
+                  >, valeur);<br /><br />
+                  <span class="code-comment">// Récupérer</span><br />
+                  localStorage.<span class="code-function">getItem</span>(<span
+                    class="code-string"
+                    >'clé'</span
+                  >);<br /><br />
+                  <span class="code-comment">// Supprimer</span><br />
+                  localStorage.<span class="code-function">removeItem</span
+                  >(<span class="code-string">'clé'</span>);
+                </div>
+              </td>
+              <td>
+                <div class="code-block">
+                  <span class="code-comment">// Identique à LocalStorage</span
+                  ><br />
+                  sessionStorage.<span class="code-function">setItem</span
+                  >(<span class="code-string">'clé'</span>, valeur);<br />
+                  sessionStorage.<span class="code-function">getItem</span
+                  >(<span class="code-string">'clé'</span>);<br />
+                  sessionStorage.<span class="code-function">removeItem</span
+                  >(<span class="code-string">'clé'</span>);
+                </div>
+              </td>
+              <td>
+                <div class="code-block">
+                  <span class="code-comment">// Créer</span><br />
+                  document.cookie =
+                  <span class="code-string"
+                    >`nom=valeur; expires=date; path=/`</span
+                  >;<br /><br />
+                  <span class="code-comment">// Lire</span><br />
+                  <span class="code-keyword">const</span> cookies =
+                  document.cookie;<br /><br />
+                  <span class="code-comment">// Complexe à parser</span>
+                </div>
+              </td>
+              <td>
+                <div class="code-block">
+                  <span class="code-comment">// API asynchrone complexe</span
+                  ><br />
+                  <span class="code-keyword">const</span> request =
+                  indexedDB.<span class="code-function">open</span>(<span
+                    class="code-string"
+                    >'maBase'</span
+                  >);<br />
+                  request.onsuccess =
+                  <span class="code-keyword">function</span>(event) {<br />
+                  &nbsp;&nbsp;<span class="code-comment"
+                    >// Gestion base de données</span
+                  ><br />
+                  };
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Cas d'usage</strong></td>
+              <td>Préférences utilisateur, données persistantes</td>
+              <td>Données temporaires de session</td>
+              <td>Authentification, tracking</td>
+              <td>Applications complexes offline</td>
+            </tr>
+            <tr>
+              <td><strong>Sécurité</strong></td>
+              <td>Pas de sécurité intégrée</td>
+              <td>Pareil</td>
+              <td>HttpOnly, Secure flags</td>
+              <td>Même origine</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="method-grid">
+        <div class="method-card">
+          <h3>
+            <span class="method-icon">💾</span> LocalStorage - Méthodes
+            Principales
+          </h3>
+          <div class="code-block">
+            <span class="code-comment">// Stocker une valeur</span><br />
+            localStorage.<span class="code-function">setItem</span>(<span
+              class="code-string"
+              >'username'</span
+            >, <span class="code-string">'JohnDoe'</span>);<br /><br />
+
+            <span class="code-comment">// Récupérer une valeur</span><br />
+            <span class="code-keyword">const</span> user = localStorage.<span
+              class="code-function"
+              >getItem</span
+            >(<span class="code-string">'username'</span>);<br /><br />
+
+            <span class="code-comment">// Supprimer une clé</span><br />
+            localStorage.<span class="code-function">removeItem</span>(<span
+              class="code-string"
+              >'username'</span
+            >);<br /><br />
+
+            <span class="code-comment">// Vider complètement</span><br />
+            localStorage.<span class="code-function">clear</span>();<br /><br />
+
+            <span class="code-comment">// Obtenir une clé par index</span><br />
+            <span class="code-keyword">const</span> key = localStorage.<span
+              class="code-function"
+              >key</span
+            >(0);
+          </div>
+        </div>
+
+        <div class="method-card">
+          <h3><span class="method-icon">🍪</span> Cookies - Gestion Avancée</h3>
+          <div class="code-block">
+            <span class="code-comment">// Définir un cookie</span><br />
+            <span class="code-keyword">function</span>
+            <span class="code-function">setCookie</span>(nom, valeur, jours)
+            {<br />
+            &nbsp;&nbsp;<span class="code-keyword">const</span> date =
+            <span class="code-keyword">new</span> Date();<br />
+            &nbsp;&nbsp;date.<span class="code-function">setTime</span
+            >(date.<span class="code-function">getTime</span>() + (jours * 24 *
+            60 * 60 * 1000));<br />
+            &nbsp;&nbsp;<span class="code-keyword">const</span> expires =
+            <span class="code-string">"expires="</span> + date.<span
+              class="code-function"
+              >toUTCString</span
+            >();<br />
+            &nbsp;&nbsp;document.cookie =
+            <span class="code-string"
+              >`<span class="code-keyword">${</span>nom<span
+                class="code-keyword"
+                >}</span
+              >=<span class="code-keyword">${</span>valeur<span
+                class="code-keyword"
+                >}</span
+              >;<span class="code-keyword">${</span>expires<span
+                class="code-keyword"
+                >}</span
+              >;path=/`</span
+            >;<br />
+            }<br /><br />
+
+            <span class="code-comment">// Lire un cookie</span><br />
+            <span class="code-keyword">function</span>
+            <span class="code-function">getCookie</span>(nom) {<br />
+            &nbsp;&nbsp;<span class="code-keyword">const</span> name = nom +
+            <span class="code-string">"="</span>;<br />
+            &nbsp;&nbsp;<span class="code-keyword">const</span> cookies =
+            document.cookie.<span class="code-function">split</span>(<span
+              class="code-string"
+              >';'</span
+            >);<br />
+            &nbsp;&nbsp;<span class="code-keyword">for</span> (<span
+              class="code-keyword"
+              >let</span
+            >
+            cookie <span class="code-keyword">of</span> cookies) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">while</span>
+            (cookie.<span class="code-function">charAt</span>(0) ===
+            <span class="code-string">' '</span>) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cookie = cookie.<span
+              class="code-function"
+              >substring</span
+            >(1);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span>
+            (cookie.<span class="code-function">indexOf</span>(name) === 0) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword"
+              >return</span
+            >
+            cookie.<span class="code-function">substring</span>(name.length,
+            cookie.length);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            &nbsp;&nbsp;}<br />
+            &nbsp;&nbsp;<span class="code-keyword">return</span>
+            <span class="code-string">""</span>;<br />
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="use-cases">
+        <h2>🎯 Cas d'Usage Recommandés</h2>
+        <div class="use-case-grid">
+          <div class="use-case-item">
+            <h4>🔄 LocalStorage</h4>
+            <p>
+              Préférences utilisateur, thèmes, données de formulaire
+              sauvegardées, panier d'achat persistant
+            </p>
+          </div>
+          <div class="use-case-item">
+            <h4>📱 SessionStorage</h4>
+            <p>
+              Données temporaires, état de formulaire pendant navigation,
+              informations de session sensibles
+            </p>
+          </div>
+          <div class="use-case-item">
+            <h4>🔐 Cookies</h4>
+            <p>
+              Tokens d'authentification, préférences de langue, analyse
+              d'audience, personnalisation
+            </p>
+          </div>
+          <div class="use-case-item">
+            <h4>💽 IndexedDB</h4>
+            <p>
+              Applications riches offline, gros volumes de données, fichiers,
+              cache avancé
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h2>🧪 Démonstration Interactive</h2>
+        <p>Testez les différentes méthodes de stockage en direct :</p>
+
+        <div class="demo-controls">
+          <input
+            type="text"
+            id="storageKey"
+            placeholder="Clé (ex: username)"
+            value="username"
+          />
+          <input
+            type="text"
+            id="storageValue"
+            placeholder="Valeur (ex: John)"
+            value="John"
+          />
+          <button onclick="demoLocalStorage()">Test LocalStorage</button>
+          <button onclick="demoSessionStorage()">Test SessionStorage</button>
+          <button onclick="demoCookies()">Test Cookies</button>
+          <button onclick="clearAll()">Tout Effacer</button>
+        </div>
+
+        <div class="demo-output" id="demoOutput">
+          <p>Les résultats s'afficheront ici...</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function demoLocalStorage() {
+        const key = document.getElementById("storageKey").value;
+        const value = document.getElementById("storageValue").value;
+
+        localStorage.setItem(key, value);
+        const retrieved = localStorage.getItem(key);
+
+        document.getElementById("demoOutput").innerHTML = `
+                <h4>✅ LocalStorage Testé</h4>
+                <p><strong>Clé:</strong> ${key}</p>
+                <p><strong>Valeur stockée:</strong> ${value}</p>
+                <p><strong>Valeur récupérée:</strong> ${retrieved}</p>
+                <p><em>Rafraîchissez la page pour vérifier la persistance</em></p>
+            `;
+      }
+
+      function demoSessionStorage() {
+        const key = document.getElementById("storageKey").value;
+        const value = document.getElementById("storageValue").value;
+
+        sessionStorage.setItem(key, value);
+        const retrieved = sessionStorage.getItem(key);
+
+        document.getElementById("demoOutput").innerHTML = `
+                <h4>✅ SessionStorage Testé</h4>
+                <p><strong>Clé:</strong> ${key}</p>
+                <p><strong>Valeur stockée:</strong> ${value}</p>
+                <p><strong>Valeur récupérée:</strong> ${retrieved}</p>
+                <p><em>Fermez l'onglet pour voir la différence avec LocalStorage</em></p>
+            `;
+      }
+
+      function demoCookies() {
+        const key = document.getElementById("storageKey").value;
+        const value = document.getElementById("storageValue").value;
+
+        setCookie(key, value, 7);
+        const retrieved = getCookie(key);
+
+        document.getElementById("demoOutput").innerHTML = `
+                <h4>✅ Cookies Testés</h4>
+                <p><strong>Clé:</strong> ${key}</p>
+                <p><strong>Valeur stockée:</strong> ${value}</p>
+                <p><strong>Valeur récupérée:</strong> ${retrieved}</p>
+                <p><strong>Tous les cookies:</strong> ${document.cookie}</p>
+            `;
+      }
+
+      function clearAll() {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach((cookie) => {
+          document.cookie = cookie
+            .replace(/^ +/, "")
+            .replace(
+              /=.*/,
+              "=;expires=" + new Date().toUTCString() + ";path=/"
+            );
+        });
+
+        document.getElementById("demoOutput").innerHTML = `
+                <h4>🧹 Tous les stockages ont été effacés</h4>
+                <p>LocalStorage, SessionStorage et Cookies ont été nettoyés</p>
+            `;
+      }
+
+      // Fonctions utilitaires pour les cookies
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = `${name}=${value};${expires};path=/`;
+      }
+
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+          while (cookie.charAt(0) === " ") {
+            cookie = cookie.substring(1);
+          }
+          if (cookie.indexOf(nameEQ) === 0) {
+            return cookie.substring(nameEQ.length, cookie.length);
+          }
+        }
+        return "";
+      }
+    </script>
+  </body>
+</html>
