@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sélecteurs CSS - Guide Complet</title>
+    <style>
+      :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --accent-color: #e74c3c;
+        --light-color: #ecf0f1;
+        --dark-color: #34495e;
+        --success-color: #2ecc71;
+        --warning-color: #f39c12;
+        --info-color: #17a2b8;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      th {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+      }
+
+      td {
+        padding: 15px;
+        border-bottom: 1px solid #e0e0e0;
+        vertical-align: top;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+
+      tr:hover {
+        background-color: #e9ecef;
+      }
+
+      .selector-type {
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      .selector-name {
+        font-family: "Courier New", monospace;
+        background-color: #f1f1f1;
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: var(--accent-color);
+        font-weight: bold;
+      }
+
+      .example {
+        font-family: "Courier New", monospace;
+        background-color: #2d3748;
+        color: #e2e8f0;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 5px;
+        overflow-x: auto;
+      }
+
+      .comment {
+        color: #a0aec0;
+        font-style: italic;
+      }
+
+      .property {
+        color: #81e6d9;
+      }
+
+      .value {
+        color: #fbb6ce;
+      }
+
+      .selector {
+        color: #fbd38d;
+      }
+
+      .tag {
+        color: #68d391;
+      }
+
+      .class {
+        color: #63b3ed;
+      }
+
+      .id {
+        color: #f687b3;
+      }
+
+      .pseudo {
+        color: #d6bcfa;
+      }
+
+      .attribute {
+        color: #faf089;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        color: var(--dark-color);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+
+        th,
+        td {
+          white-space: nowrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Sélecteurs CSS - Guide Complet</h1>
+        <p class="subtitle">
+          Tableau exhaustif de tous les types de sélecteurs CSS avec exemples
+        </p>
+      </header>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Sélecteur</th>
+            <th>Description</th>
+            <th>Exemple</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sélecteurs de base -->
+          <tr>
+            <td class="selector-type">Sélecteur universel</td>
+            <td><span class="selector-name">*</span></td>
+            <td>Sélectionne tous les éléments</td>
+            <td>
+              <div class="example">
+                <span class="selector">*</span> {<br />
+                &nbsp;&nbsp;<span class="property">margin</span>:
+                <span class="value">0</span>;<br />
+                &nbsp;&nbsp;<span class="property">padding</span>:
+                <span class="value">0</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur d'élément</td>
+            <td><span class="selector-name">element</span></td>
+            <td>Sélectionne tous les éléments du type spécifié</td>
+            <td>
+              <div class="example">
+                <span class="tag">p</span> {<br />
+                &nbsp;&nbsp;<span class="property">color</span>:
+                <span class="value">blue</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur de classe</td>
+            <td><span class="selector-name">.class</span></td>
+            <td>Sélectionne tous les éléments avec la classe spécifiée</td>
+            <td>
+              <div class="example">
+                <span class="class">.ma-classe</span> {<br />
+                &nbsp;&nbsp;<span class="property">font-weight</span>:
+                <span class="value">bold</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur d'ID</td>
+            <td><span class="selector-name">#id</span></td>
+            <td>Sélectionne l'élément avec l'ID spécifié</td>
+            <td>
+              <div class="example">
+                <span class="id">#mon-id</span> {<br />
+                &nbsp;&nbsp;<span class="property">background-color</span>:
+                <span class="value">yellow</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Sélecteurs d'attributs -->
+          <tr>
+            <td class="selector-type">Sélecteur d'attribut</td>
+            <td><span class="selector-name">[attr]</span></td>
+            <td>Sélectionne les éléments avec l'attribut spécifié</td>
+            <td>
+              <div class="example">
+                <span class="attribute">[target]</span> {<br />
+                &nbsp;&nbsp;<span class="property">border</span>:
+                <span class="value">1px solid red</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur d'attribut (valeur exacte)</td>
+            <td><span class="selector-name">[attr=valeur]</span></td>
+            <td>
+              Sélectionne les éléments avec l'attribut et la valeur exacte
+              spécifiés
+            </td>
+            <td>
+              <div class="example">
+                <span class="attribute">[type="text"]</span> {<br />
+                &nbsp;&nbsp;<span class="property">width</span>:
+                <span class="value">200px</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur d'attribut (contient)</td>
+            <td><span class="selector-name">[attr*=valeur]</span></td>
+            <td>
+              Sélectionne les éléments dont l'attribut contient la valeur
+              spécifiée
+            </td>
+            <td>
+              <div class="example">
+                <span class="attribute">[class*="btn"]</span> {<br />
+                &nbsp;&nbsp;<span class="property">padding</span>:
+                <span class="value">10px</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur d'attribut (commence par)</td>
+            <td><span class="selector-name">[attr^=valeur]</span></td>
+            <td>
+              Sélectionne les éléments dont l'attribut commence par la valeur
+              spécifiée
+            </td>
+            <td>
+              <div class="example">
+                <span class="attribute">[href^="https"]</span> {<br />
+                &nbsp;&nbsp;<span class="property">color</span>:
+                <span class="value">green</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur d'attribut (termine par)</td>
+            <td><span class="selector-name">[attr$=valeur]</span></td>
+            <td>
+              Sélectionne les éléments dont l'attribut termine par la valeur
+              spécifiée
+            </td>
+            <td>
+              <div class="example">
+                <span class="attribute">[src$=".jpg"]</span> {<br />
+                &nbsp;&nbsp;<span class="property">border</span>:
+                <span class="value">2px solid #ccc</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">
+              Combinaison Sélecteur d'attribut d'une balise
+            </td>
+            <td><span class="selector-name">element[attr]</span></td>
+            <td>Sélectionne l'attribut d'une balise</td>
+            <td>
+              <div class="example">
+                <span class="attribute">img[src]</span> {<br />
+                &nbsp;&nbsp;<span class="property">border</span>:
+                <span class="value">2px solid #ccc</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Sélecteurs combinatoires -->
+          <tr>
+            <td class="selector-type">Sélecteur descendant</td>
+            <td><span class="selector-name">A B</span></td>
+            <td>Sélectionne tous les éléments B qui sont descendants de A</td>
+            <td>
+              <div class="example">
+                <span class="tag">div</span> <span class="tag">p</span> {<br />
+                &nbsp;&nbsp;<span class="property">color</span>:
+                <span class="value">red</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur enfant direct</td>
+            <td><span class="selector-name">A > B</span></td>
+            <td>
+              Sélectionne tous les éléments B qui sont des enfants directs de A
+            </td>
+            <td>
+              <div class="example">
+                <span class="tag">div</span> >
+                <span class="tag">p</span> {<br />
+                &nbsp;&nbsp;<span class="property">font-size</span>:
+                <span class="value">1.2em</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur adjacent</td>
+            <td><span class="selector-name">A + B</span></td>
+            <td>Sélectionne l'élément B qui suit immédiatement A</td>
+            <td>
+              <div class="example">
+                <span class="tag">h1</span> + <span class="tag">p</span> {<br />
+                &nbsp;&nbsp;<span class="property">margin-top</span>:
+                <span class="value">0</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur de frères général</td>
+            <td><span class="selector-name">A ~ B</span></td>
+            <td>Sélectionne tous les éléments B qui suivent A (même niveau)</td>
+            <td>
+              <div class="example">
+                <span class="tag">h1</span> ~ <span class="tag">p</span> {<br />
+                &nbsp;&nbsp;<span class="property">color</span>:
+                <span class="value">gray</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Sélecteurs de pseudo-classes -->
+          <tr>
+            <td class="selector-type">Pseudo-classe d'état</td>
+            <td><span class="selector-name">:hover</span></td>
+            <td>Sélectionne l'élément au survol de la souris</td>
+            <td>
+              <div class="example">
+                <span class="tag">a</span
+                ><span class="pseudo">:hover</span> {<br />
+                &nbsp;&nbsp;<span class="property">text-decoration</span>:
+                <span class="value">underline</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Pseudo-classe d'état</td>
+            <td><span class="selector-name">:focus</span></td>
+            <td>Sélectionne l'élément qui a le focus</td>
+            <td>
+              <div class="example">
+                <span class="tag">input</span
+                ><span class="pseudo">:focus</span> {<br />
+                &nbsp;&nbsp;<span class="property">border-color</span>:
+                <span class="value">blue</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Pseudo-classe structurelle</td>
+            <td><span class="selector-name">:first-child</span></td>
+            <td>Sélectionne le premier enfant de son parent</td>
+            <td>
+              <div class="example">
+                <span class="tag">li</span
+                ><span class="pseudo">:first-child</span> {<br />
+                &nbsp;&nbsp;<span class="property">font-weight</span>:
+                <span class="value">bold</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Pseudo-classe structurelle</td>
+            <td><span class="selector-name">:last-child</span></td>
+            <td>Sélectionne le dernier enfant de son parent</td>
+            <td>
+              <div class="example">
+                <span class="tag">li</span
+                ><span class="pseudo">:last-child</span> {<br />
+                &nbsp;&nbsp;<span class="property">border-bottom</span>:
+                <span class="value">none</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Pseudo-classe structurelle</td>
+            <td><span class="selector-name">:nth-child(n)</span></td>
+            <td>Sélectionne le n-ième enfant de son parent</td>
+            <td>
+              <div class="example">
+                <span class="tag">tr</span
+                ><span class="pseudo">:nth-child(odd)</span> {<br />
+                &nbsp;&nbsp;<span class="property">background-color</span>:
+                <span class="value">#f2f2f2</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Pseudo-classe structurelle</td>
+            <td><span class="selector-name">:not(selector)</span></td>
+            <td>
+              Sélectionne les éléments qui ne correspondent pas au sélecteur
+            </td>
+            <td>
+              <div class="example">
+                <span class="tag">div</span
+                ><span class="pseudo">:not(.exclu)</span> {<br />
+                &nbsp;&nbsp;<span class="property">display</span>:
+                <span class="value">block</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Sélecteurs de pseudo-éléments -->
+          <tr>
+            <td class="selector-type">Pseudo-élément</td>
+            <td><span class="selector-name">::before</span></td>
+            <td>Insère du contenu avant l'élément</td>
+            <td>
+              <div class="example">
+                <span class="tag">p</span
+                ><span class="pseudo">::before</span> {<br />
+                &nbsp;&nbsp;<span class="property">content</span>:
+                <span class="value">"> "</span>;<br />
+                &nbsp;&nbsp;<span class="property">color</span>:
+                <span class="value">red</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Pseudo-élément</td>
+            <td><span class="selector-name">::after</span></td>
+            <td>Insère du contenu après l'élément</td>
+            <td>
+              <div class="example">
+                <span class="tag">a</span
+                ><span class="pseudo">::after</span> {<br />
+                &nbsp;&nbsp;<span class="property">content</span>:
+                <span class="value">" (lien)"</span>;<br />
+                &nbsp;&nbsp;<span class="property">font-size</span>:
+                <span class="value">0.8em</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Pseudo-élément</td>
+            <td><span class="selector-name">::first-letter</span></td>
+            <td>Sélectionne la première lettre de l'élément</td>
+            <td>
+              <div class="example">
+                <span class="tag">p</span
+                ><span class="pseudo">::first-letter</span> {<br />
+                &nbsp;&nbsp;<span class="property">font-size</span>:
+                <span class="value">2em</span>;<br />
+                &nbsp;&nbsp;<span class="property">font-weight</span>:
+                <span class="value">bold</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Pseudo-élément</td>
+            <td><span class="selector-name">::first-line</span></td>
+            <td>Sélectionne la première ligne de l'élément</td>
+            <td>
+              <div class="example">
+                <span class="tag">p</span
+                ><span class="pseudo">::first-line</span> {<br />
+                &nbsp;&nbsp;<span class="property">text-transform</span>:
+                <span class="value">uppercase</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Sélecteurs de combinaisons multiples -->
+          <tr>
+            <td class="selector-type">Sélecteur multiple</td>
+            <td><span class="selector-name">A, B</span></td>
+            <td>Sélectionne tous les éléments A et B</td>
+            <td>
+              <div class="example">
+                <span class="tag">h1</span>, <span class="tag">h2</span>,
+                <span class="tag">h3</span> {<br />
+                &nbsp;&nbsp;<span class="property">font-family</span>:
+                <span class="value">Arial, sans-serif</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur combiné</td>
+            <td><span class="selector-name">A.class</span></td>
+            <td>Sélectionne les éléments A avec la classe spécifiée</td>
+            <td>
+              <div class="example">
+                <span class="tag">p</span
+                ><span class="class">.important</span> {<br />
+                &nbsp;&nbsp;<span class="property">color</span>:
+                <span class="value">red</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="selector-type">Sélecteur combiné</td>
+            <td><span class="selector-name">A#id</span></td>
+            <td>Sélectionne l'élément A avec l'ID spécifié</td>
+            <td>
+              <div class="example">
+                <span class="tag">div</span
+                ><span class="id">#header</span> {<br />
+                &nbsp;&nbsp;<span class="property">background-color</span>:
+                <span class="value">#333</span>;<br />
+                }
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <footer>
+        <p>Tableau des sélecteurs CSS - Guide complet et exhaustif</p>
+        <p>© 2023 - Tous droits réservés</p>
+      </footer>
+    </div>
+  </body>
+</html>

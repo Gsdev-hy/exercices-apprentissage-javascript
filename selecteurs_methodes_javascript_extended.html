@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sélecteurs et Méthodes JavaScript - Guide Complet</title>
+    <style>
+      :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --accent-color: #e74c3c;
+        --light-color: #ecf0f1;
+        --dark-color: #34495e;
+        --success-color: #2ecc71;
+        --warning-color: #f39c12;
+        --info-color: #1abc9c;
+        --purple-color: #9b59b6;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f5f7fa;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        background-color: var(--light-color);
+        border: 1px solid var(--secondary-color);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .filter-btn:hover {
+        background-color: var(--secondary-color);
+        color: white;
+      }
+
+      .filter-btn.active {
+        background-color: var(--secondary-color);
+        color: white;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      th {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 15px;
+        text-align: left;
+        position: sticky;
+        top: 0;
+      }
+
+      td {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        vertical-align: top;
+      }
+
+      tr:hover {
+        background-color: #f9f9f9;
+      }
+
+      .method-name {
+        font-weight: bold;
+        color: var(--secondary-color);
+        font-size: 1.1rem;
+      }
+
+      .category {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-top: 5px;
+      }
+
+      .category-selector {
+        background-color: var(--success-color);
+        color: white;
+      }
+
+      .category-attribute {
+        background-color: var(--warning-color);
+        color: white;
+      }
+
+      .category-class {
+        background-color: var(--accent-color);
+        color: white;
+      }
+
+      .category-element {
+        background-color: var(--purple-color);
+        color: white;
+      }
+
+      .category-event {
+        background-color: var(--info-color);
+        color: white;
+      }
+
+      .category-style {
+        background-color: #e67e22;
+        color: white;
+      }
+
+      .category-traversal {
+        background-color: #16a085;
+        color: white;
+      }
+
+      .category-form {
+        background-color: #8e44ad;
+        color: white;
+      }
+
+      code {
+        background-color: #f8f9fa;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+        color: var(--dark-color);
+      }
+
+      .example {
+        background-color: #2d3748;
+        color: #e2e8f0;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 10px;
+        font-family: "Courier New", monospace;
+        overflow-x: auto;
+        font-size: 0.9rem;
+      }
+
+      .example .keyword {
+        color: #63b3ed;
+      }
+
+      .example .string {
+        color: #68d391;
+      }
+
+      .example .comment {
+        color: #a0aec0;
+        font-style: italic;
+      }
+
+      .example .function {
+        color: #fbb6ce;
+      }
+
+      .example .property {
+        color: #faf089;
+      }
+
+      .example .variable {
+        color: #bee3f8;
+      }
+
+      .example .operator {
+        color: #fc8181;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        color: var(--dark-color);
+        font-size: 0.9rem;
+      }
+
+      .method-description {
+        margin-bottom: 8px;
+      }
+
+      @media (max-width: 768px) {
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+
+        th,
+        td {
+          padding: 10px;
+          font-size: 0.9rem;
+        }
+
+        .method-name {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Sélecteurs et Méthodes JavaScript</h1>
+        <p class="subtitle">
+          Guide complet pour manipuler le DOM - Version étendue
+        </p>
+      </header>
+
+      <div class="controls">
+        <button class="filter-btn active" data-category="all">Tous</button>
+        <button class="filter-btn" data-category="selector">Sélecteurs</button>
+        <button class="filter-btn" data-category="attribute">Attributs</button>
+        <button class="filter-btn" data-category="class">Classes</button>
+        <button class="filter-btn" data-category="element">Éléments</button>
+        <button class="filter-btn" data-category="style">Styles</button>
+        <button class="filter-btn" data-category="traversal">Navigation</button>
+        <button class="filter-btn" data-category="form">Formulaires</button>
+        <button class="filter-btn" data-category="event">Événements</button>
+      </div>
+
+      <table id="methods-table">
+        <thead>
+          <tr>
+            <th width="20%">Méthode/Propriété</th>
+            <th width="35%">Description</th>
+            <th width="45%">Exemple</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sélecteurs -->
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">getElementById()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Sélectionne un élément par son ID (retourne un seul élément)
+              </div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">element</span> =
+                <span class="function">document.getElementById</span>(<span
+                  class="string"
+                  >'monId'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">getElementsByClassName()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Sélectionne tous les éléments avec une classe spécifique
+              </div>
+              <div><strong>Retourne:</strong> HTMLCollection (live)</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">elements</span> =
+                <span class="function">document.getElementsByClassName</span
+                >(<span class="string">'maClasse'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">getElementsByTagName()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Sélectionne tous les éléments avec un nom de balise spécifique
+              </div>
+              <div><strong>Retourne:</strong> HTMLCollection (live)</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">elements</span> =
+                <span class="function">document.getElementsByTagName</span
+                >(<span class="string">'div'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">getElementsByName()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Sélectionne tous les éléments avec un attribut name spécifique
+              </div>
+              <div><strong>Retourne:</strong> NodeList (live)</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">elements</span> =
+                <span class="function">document.getElementsByName</span>(<span
+                  class="string"
+                  >'username'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">querySelector()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Sélectionne le premier élément correspondant au sélecteur CSS
+              </div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">element</span> =
+                <span class="function">document.querySelector</span>(<span
+                  class="string"
+                  >'.maClasse'</span
+                >);<br />
+                <span class="keyword">const</span>
+                <span class="variable">element2</span> =
+                <span class="function">document.querySelector</span>(<span
+                  class="string"
+                  >'#monId div.maClasse'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">querySelectorAll()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Sélectionne tous les éléments correspondant au sélecteur CSS
+              </div>
+              <div><strong>Retourne:</strong> NodeList (static)</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">elements</span> =
+                <span class="function">document.querySelectorAll</span>(<span
+                  class="string"
+                  >'div.maClasse'</span
+                >);<br />
+                <span class="keyword">const</span>
+                <span class="variable">elements2</span> =
+                <span class="function">document.querySelectorAll</span>(<span
+                  class="string"
+                  >'input[type="text"]'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">closest()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Remonte l'arbre DOM pour trouver l'ancêtre correspondant au
+                sélecteur
+              </div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">parent</span> = element.<span
+                  class="function"
+                  >closest</span
+                >(<span class="string">'.container'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">matches()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Vérifie si l'élément correspond au sélecteur CSS
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">if</span> (element.<span class="function"
+                  >matches</span
+                >(<span class="string">'.active'</span>)) {<br />
+                &nbsp;&nbsp;<span class="comment">// Faire quelque chose</span
+                ><br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Attributs -->
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">getAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Récupère la valeur d'un attribut d'un élément
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">valeur</span> = element.<span
+                  class="function"
+                  >getAttribute</span
+                >(<span class="string">'data-info'</span>);<br />
+                <span class="keyword">const</span>
+                <span class="variable">href</span> = link.<span class="function"
+                  >getAttribute</span
+                >(<span class="string">'href'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">setAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Définit ou modifie la valeur d'un attribut
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">setAttribute</span>(<span
+                  class="string"
+                  >'data-info'</span
+                >, <span class="string">'nouvelle valeur'</span>);<br />
+                element.<span class="function">setAttribute</span>(<span
+                  class="string"
+                  >'disabled'</span
+                >, <span class="string">'true'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">removeAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Supprime un attribut d'un élément
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">removeAttribute</span>(<span
+                  class="string"
+                  >'data-info'</span
+                >);<br />
+                element.<span class="function">removeAttribute</span>(<span
+                  class="string"
+                  >'disabled'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">hasAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Vérifie si un élément possède un attribut spécifique
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">if</span> (element.<span class="function"
+                  >hasAttribute</span
+                >(<span class="string">'data-info'</span>)) {<br />
+                &nbsp;&nbsp;<span class="comment">// Faire quelque chose</span
+                ><br />
+                }
+              </div>
+            </td>
+          </tr>
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">toggleAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Ajoute un attribut s'il n'existe pas, le supprime sinon
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">toggleAttribute</span>(<span
+                  class="string"
+                  >'hidden'</span
+                >);<br />
+                element.<span class="function">toggleAttribute</span>(<span
+                  class="string"
+                  >'disabled'</span
+                >, <span class="keyword">true</span>);
+                <span class="comment">// Force l'activation</span>
+              </div>
+            </td>
+          </tr>
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">dataset</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Accède aux attributs data-* via un objet
+              </div>
+              <div><strong>Retourne:</strong> DOMStringMap</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="comment"
+                  >// Pour &lt;div data-id="123" data-user-name="john"&gt;</span
+                ><br />
+                <span class="keyword">const</span>
+                <span class="variable">id</span> = element.<span
+                  class="property"
+                  >dataset</span
+                >.<span class="property">id</span>;
+                <span class="comment">// "123"</span><br />
+                <span class="keyword">const</span>
+                <span class="variable">userName</span> = element.<span
+                  class="property"
+                  >dataset</span
+                >.<span class="property">userName</span>;
+                <span class="comment">// "john"</span>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Classes -->
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.add()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Ajoute une ou plusieurs classes à un élément
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >add</span
+                >(<span class="string">'active'</span>);<br />
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >add</span
+                >(<span class="string">'class1'</span>,
+                <span class="string">'class2'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.remove()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Supprime une ou plusieurs classes d'un élément
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >remove</span
+                >(<span class="string">'active'</span>);<br />
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >remove</span
+                >(<span class="string">'class1'</span>,
+                <span class="string">'class2'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.toggle()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Ajoute une classe si elle n'existe pas, la supprime sinon
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >toggle</span
+                >(<span class="string">'active'</span>);<br />
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >toggle</span
+                >(<span class="string">'active'</span>,
+                <span class="keyword">true</span>);
+                <span class="comment">// Force l'ajout</span>
+              </div>
+            </td>
+          </tr>
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.contains()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Vérifie si un élément possède une classe spécifique
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">if</span> (element.<span class="property"
+                  >classList</span
+                >.<span class="function">contains</span>(<span class="string"
+                  >'active'</span
+                >)) {<br />
+                &nbsp;&nbsp;<span class="comment">// Faire quelque chose</span
+                ><br />
+                }
+              </div>
+            </td>
+          </tr>
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.replace()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Remplace une classe par une autre
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >replace</span
+                >(<span class="string">'old-class'</span>,
+                <span class="string">'new-class'</span>);
+              </div>
+            </td>
+          </tr>
+
+          <!-- Éléments -->
+          <tr data-category="element">
+            <td>
+              <span class="method-name">createElement()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">Crée un nouvel élément HTML</div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">newElement</span> =
+                <span class="function">document.createElement</span>(<span
+                  class="string"
+                  >'div'</span
+                >);<br />
+                <span class="keyword">const</span>
+                <span class="variable">button</span> =
+                <span class="function">document.createElement</span>(<span
+                  class="string"
+                  >'button'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">createTextNode()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">Crée un nœud de texte</div>
+              <div><strong>Retourne:</strong> Text</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">textNode</span> =
+                <span class="function">document.createTextNode</span>(<span
+                  class="string"
+                  >'Hello World'</span
+                >);<br />
+                element.<span class="function">appendChild</span>(textNode);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">appendChild()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Ajoute un nœud enfant à la fin d'un élément parent
+              </div>
+              <div><strong>Retourne:</strong> Node</div>
+            </td>
+            <td>
+              <div class="example">
+                parentElement.<span class="function">appendChild</span
+                >(newElement);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">removeChild()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Supprime un nœud enfant d'un élément parent
+              </div>
+              <div><strong>Retourne:</strong> Node</div>
+            </td>
+            <td>
+              <div class="example">
+                parentElement.<span class="function">removeChild</span
+                >(childElement);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">insertBefore()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Insère un nœud avant un nœud de référence
+              </div>
+              <div><strong>Retourne:</strong> Node</div>
+            </td>
+            <td>
+              <div class="example">
+                parentElement.<span class="function">insertBefore</span
+                >(newElement, referenceElement);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">replaceChild()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Remplace un nœud enfant par un autre
+              </div>
+              <div><strong>Retourne:</strong> Node</div>
+            </td>
+            <td>
+              <div class="example">
+                parentElement.<span class="function">replaceChild</span
+                >(newElement, oldElement);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">cloneNode()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Clone un élément (true pour cloner en profondeur)
+              </div>
+              <div><strong>Retourne:</strong> Node</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">clone</span> = element.<span
+                  class="function"
+                  >cloneNode</span
+                >(<span class="keyword">true</span>);
+                <span class="comment">// Clone avec enfants</span><br />
+                <span class="keyword">const</span>
+                <span class="variable">cloneShallow</span> = element.<span
+                  class="function"
+                  >cloneNode</span
+                >(<span class="keyword">false</span>);
+                <span class="comment">// Clone sans enfants</span>
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">innerHTML</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Obtient ou définit le contenu HTML d'un élément
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">innerHTML</span> =
+                <span class="string"
+                  >'&lt;span&gt;Nouveau contenu&lt;/span&gt;'</span
+                >;<br />
+                <span class="keyword">const</span>
+                <span class="variable">html</span> = element.<span
+                  class="property"
+                  >innerHTML</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">textContent</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Obtient ou définit le contenu textuel d'un élément
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">textContent</span> =
+                <span class="string">'Nouveau texte'</span>;<br />
+                <span class="keyword">const</span>
+                <span class="variable">text</span> = element.<span
+                  class="property"
+                  >textContent</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">innerText</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Obtient ou définit le texte visible d'un élément
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">innerText</span> =
+                <span class="string">'Texte visible'</span>;<br />
+                <span class="keyword">const</span>
+                <span class="variable">visibleText</span> = element.<span
+                  class="property"
+                  >innerText</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">insertAdjacentHTML()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Insère du HTML à une position spécifique
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">insertAdjacentHTML</span>(<span
+                  class="string"
+                  >'beforebegin'</span
+                >,
+                <span class="string">'&lt;div&gt;Avant&lt;/div&gt;'</span
+                >);<br />
+                element.<span class="function">insertAdjacentHTML</span>(<span
+                  class="string"
+                  >'afterend'</span
+                >, <span class="string">'&lt;div&gt;Après&lt;/div&gt;'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">insertAdjacentElement()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Insère un élément à une position spécifique
+              </div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">insertAdjacentElement</span
+                >(<span class="string">'beforebegin'</span>, newElement);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">insertAdjacentText()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Insère du texte à une position spécifique
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">insertAdjacentText</span>(<span
+                  class="string"
+                  >'beforebegin'</span
+                >, <span class="string">'Texte avant'</span>);
+              </div>
+            </td>
+          </tr>
+
+          <!-- Styles -->
+          <tr data-category="style">
+            <td>
+              <span class="method-name">style.property</span>
+              <div><span class="category category-style">Style</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Obtient ou définit une propriété de style inline
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">style</span>.<span
+                  class="property"
+                  >color</span
+                >
+                = <span class="string">'red'</span>;<br />
+                element.<span class="property">style</span>.<span
+                  class="property"
+                  >backgroundColor</span
+                >
+                = <span class="string">'#fff'</span>;<br />
+                element.<span class="property">style</span>.<span
+                  class="property"
+                  >fontSize</span
+                >
+                = <span class="string">'16px'</span>;
+              </div>
+            </td>
+          </tr>
+          <!-- Styles -->
+          <tr data-category="style">
+            <td>
+              <span class="method-name">style.property</span>
+              <div><span class="category category-style">Style</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Obtient ou définit une propriété de style inline
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">style</span>.<span
+                  class="property"
+                  >color</span
+                >
+                = <span class="string">'red'</span>;<br />
+                element.<span class="property">style</span>.<span
+                  class="property"
+                  >backgroundColor</span
+                >
+                = <span class="string">'#fff'</span>;<br />
+                element.<span class="property">style</span>.<span
+                  class="property"
+                  >fontSize</span
+                >
+                = <span class="string">'16px'</span>;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="style">
+            <td>
+              <span class="method-name">getComputedStyle()</span>
+              <div><span class="category category-style">Style</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Récupère les styles calculés (incluant CSS)
+              </div>
+              <div><strong>Retourne:</strong> CSSStyleDeclaration</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">styles</span> =
+                <span class="function">window.getComputedStyle</span
+                >(element);<br />
+                <span class="keyword">const</span>
+                <span class="variable">color</span> = styles.<span
+                  class="property"
+                  >getPropertyValue</span
+                >(<span class="string">'color'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="style">
+            <td>
+              <span class="method-name">classList</span> + CSS
+              <div><span class="category category-style">Style</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Applique des styles via l'ajout/suppression de classes
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="comment"
+                  >// CSS: .active { color: red; font-weight: bold; }</span
+                ><br />
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >add</span
+                >(<span class="string">'active'</span>);<br />
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >remove</span
+                >(<span class="string">'inactive'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="style">
+            <td>
+              <span class="method-name">cssText</span>
+              <div><span class="category category-style">Style</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Définit plusieurs styles en une seule fois
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">style</span>.<span
+                  class="property"
+                  >cssText</span
+                >
+                =
+                <span class="string"
+                  >'color: red; font-size: 16px; background: white;'</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="style">
+            <td>
+              <span class="method-name">setProperty()</span>
+              <div><span class="category category-style">Style</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Définit une propriété CSS avec priorité
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">style</span>.<span
+                  class="function"
+                  >setProperty</span
+                >(<span class="string">'color'</span>,
+                <span class="string">'red'</span>,
+                <span class="string">'important'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="style">
+            <td>
+              <span class="method-name">removeProperty()</span>
+              <div><span class="category category-style">Style</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Supprime une propriété de style
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="property">style</span>.<span
+                  class="function"
+                  >removeProperty</span
+                >(<span class="string">'color'</span>);
+              </div>
+            </td>
+          </tr>
+
+          <!-- Navigation dans le DOM -->
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name">parentNode</span>
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">Récupère le nœud parent</div>
+              <div><strong>Retourne:</strong> Node</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">parent</span> = element.<span
+                  class="property"
+                  >parentNode</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name">parentElement</span>
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">Récupère l'élément parent</div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">parent</span> = element.<span
+                  class="property"
+                  >parentElement</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name">children</span>
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Récupère les éléments enfants (exclut les nœuds texte)
+              </div>
+              <div><strong>Retourne:</strong> HTMLCollection</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">children</span> = element.<span
+                  class="property"
+                  >children</span
+                >;<br />
+                <span class="keyword">const</span>
+                <span class="variable">firstChild</span> = element.<span
+                  class="property"
+                  >children</span
+                >[<span class="number">0</span>];
+              </div>
+            </td>
+          </tr>
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name">childNodes</span>
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Récupère tous les nœuds enfants (inclut texte, commentaires)
+              </div>
+              <div><strong>Retourne:</strong> NodeList</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">childNodes</span> = element.<span
+                  class="property"
+                  >childNodes</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name">firstChild / lastChild</span>
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Récupère le premier/dernier nœud enfant
+              </div>
+              <div><strong>Retourne:</strong> Node</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">first</span> = element.<span
+                  class="property"
+                  >firstChild</span
+                >;<br />
+                <span class="keyword">const</span>
+                <span class="variable">last</span> = element.<span
+                  class="property"
+                  >lastChild</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name"
+                >firstElementChild / lastElementChild</span
+              >
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Récupère le premier/dernier élément enfant
+              </div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">first</span> = element.<span
+                  class="property"
+                  >firstElementChild</span
+                >;<br />
+                <span class="keyword">const</span>
+                <span class="variable">last</span> = element.<span
+                  class="property"
+                  >lastElementChild</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name">nextSibling / previousSibling</span>
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Récupère le nœud suivant/précédent au même niveau
+              </div>
+              <div><strong>Retourne:</strong> Node</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">next</span> = element.<span
+                  class="property"
+                  >nextSibling</span
+                >;<br />
+                <span class="keyword">const</span>
+                <span class="variable">prev</span> = element.<span
+                  class="property"
+                  >previousSibling</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name"
+                >nextElementSibling / previousElementSibling</span
+              >
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Récupère l'élément suivant/précédent au même niveau
+              </div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">next</span> = element.<span
+                  class="property"
+                  >nextElementSibling</span
+                >;<br />
+                <span class="keyword">const</span>
+                <span class="variable">prev</span> = element.<span
+                  class="property"
+                  >previousElementSibling</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="traversal">
+            <td>
+              <span class="method-name">contains()</span>
+              <div>
+                <span class="category category-traversal">Navigation</span>
+              </div>
+            </td>
+            <td>
+              <div class="method-description">
+                Vérifie si un élément contient un autre élément
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">if</span> (container.<span
+                  class="function"
+                  >contains</span
+                >(element)) {<br />
+                &nbsp;&nbsp;<span class="comment"
+                  >// L'élément est dans le container</span
+                ><br />
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Formulaires -->
+          <tr data-category="form">
+            <td>
+              <span class="method-name">forms[]</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Accède aux formulaires de la page
+              </div>
+              <div><strong>Retourne:</strong> HTMLCollection</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">firstForm</span> =
+                <span class="function">document.forms</span>[<span
+                  class="number"
+                  >0</span
+                >];<br />
+                <span class="keyword">const</span>
+                <span class="variable">myForm</span> =
+                <span class="function">document.forms</span>[<span
+                  class="string"
+                  >'formName'</span
+                >];
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">elements[]</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Accède aux éléments d'un formulaire
+              </div>
+              <div><strong>Retourne:</strong> HTMLFormControlsCollection</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">input</span> = form.<span
+                  class="property"
+                  >elements</span
+                >[<span class="string">'username'</span>];<br />
+                <span class="keyword">const</span>
+                <span class="variable">email</span> = form.<span
+                  class="property"
+                  >elements</span
+                >.<span class="property">email</span>;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">value</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Obtient ou définit la valeur d'un champ de formulaire
+              </div>
+              <div><strong>Retourne:</strong> String</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">inputValue</span> = input.<span
+                  class="property"
+                  >value</span
+                >;<br />
+                input.<span class="property">value</span> =
+                <span class="string">'Nouvelle valeur'</span>;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">checked</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Obtient ou définit l'état d'une checkbox/radio
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">if</span> (checkbox.<span class="property"
+                  >checked</span
+                >) {<br />
+                &nbsp;&nbsp;<span class="comment"
+                  >// La checkbox est cochée</span
+                ><br />
+                }<br />
+                radio.<span class="property">checked</span> =
+                <span class="keyword">true</span>;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">selectedIndex</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Obtient ou définit l'index de l'option sélectionnée
+              </div>
+              <div><strong>Retourne:</strong> Number</div>
+            </td>
+            <td>
+              <div class="example">
+                select.<span class="property">selectedIndex</span> =
+                <span class="number">2</span>;<br />
+                <span class="keyword">const</span>
+                <span class="variable">index</span> = select.<span
+                  class="property"
+                  >selectedIndex</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">options[]</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Accède aux options d'un élément select
+              </div>
+              <div><strong>Retourne:</strong> HTMLOptionsCollection</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">selectedOption</span> = select.<span
+                  class="property"
+                  >options</span
+                >[select.<span class="property">selectedIndex</span>];
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">submit()</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Soumet un formulaire par programmation
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                form.<span class="function">submit</span>();
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">reset()</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">Réinitialise un formulaire</div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                form.<span class="function">reset</span>();
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">focus()</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">Donne le focus à un élément</div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                input.<span class="function">focus</span>();
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">blur()</span>
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">Retire le focus d'un élément</div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                input.<span class="function">blur</span>();
+              </div>
+            </td>
+          </tr>
+          <tr data-category="form">
+            <td>
+              <span class="method-name">addOption()</span> (custom)
+              <div><span class="category category-form">Formulaire</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Ajoute une option à un select (méthode personnalisée)
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">option</span> =
+                <span class="function">document.createElement</span>(<span
+                  class="string"
+                  >'option'</span
+                >);<br />
+                option.<span class="property">value</span> =
+                <span class="string">'val'</span>;<br />
+                option.<span class="property">textContent</span> =
+                <span class="string">'Texte'</span>;<br />
+                select.<span class="function">appendChild</span>(option);
+              </div>
+            </td>
+          </tr>
+
+          <!-- Événements -->
+          <tr data-category="event">
+            <td>
+              <span class="method-name">addEventListener()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Attache un gestionnaire d'événement à un élément
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >,
+                <span class="function"
+                  ><span class="keyword">function</span></span
+                >(e) {<br />
+                &nbsp;&nbsp;<span class="comment"
+                  >// Code à exécuter au clic</span
+                ><br />
+                });<br />
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >, handler, { <span class="property">once</span>:
+                <span class="keyword">true</span> });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">removeEventListener()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Supprime un gestionnaire d'événement d'un élément
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">removeEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >, handlerFunction);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">dispatchEvent()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Déclenche un événement par programmation
+              </div>
+              <div><strong>Retourne:</strong> Boolean</div>
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span>
+                <span class="variable">event</span> =
+                <span class="keyword">new</span>
+                <span class="function">Event</span>(<span class="string"
+                  >'click'</span
+                >);<br />
+                element.<span class="function">dispatchEvent</span>(event);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">preventDefault()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Empêche le comportement par défaut d'un événement
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'submit'</span
+                >,
+                <span class="function"
+                  ><span class="keyword">function</span></span
+                >(e) {<br />
+                &nbsp;&nbsp;e.<span class="function">preventDefault</span
+                >();<br />
+                &nbsp;&nbsp;<span class="comment"
+                  >// Empêche l'envoi du formulaire</span
+                ><br />
+                });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">stopPropagation()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Empêche la propagation d'un événement dans le DOM
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >,
+                <span class="function"
+                  ><span class="keyword">function</span></span
+                >(e) {<br />
+                &nbsp;&nbsp;e.<span class="function">stopPropagation</span
+                >();<br />
+                &nbsp;&nbsp;<span class="comment"
+                  >// Empêche la propagation vers les parents</span
+                ><br />
+                });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">stopImmediatePropagation()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Empêche la propagation et l'exécution d'autres gestionnaires
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >,
+                <span class="function"
+                  ><span class="keyword">function</span></span
+                >(e) {<br />
+                &nbsp;&nbsp;e.<span class="function"
+                  >stopImmediatePropagation</span
+                >();<br />
+                &nbsp;&nbsp;<span class="comment"
+                  >// Les autres gestionnaires click ne s'exécuteront pas</span
+                ><br />
+                });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">Event.target</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Élément qui a déclenché l'événement
+              </div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >,
+                <span class="function"
+                  ><span class="keyword">function</span></span
+                >(e) {<br />
+                &nbsp;&nbsp;<span class="keyword">const</span>
+                <span class="variable">clickedElement</span> = e.<span
+                  class="property"
+                  >target</span
+                >;<br />
+                });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">Event.currentTarget</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Élément sur lequel le gestionnaire est attaché
+              </div>
+              <div><strong>Retourne:</strong> Element</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >,
+                <span class="function"
+                  ><span class="keyword">function</span></span
+                >(e) {<br />
+                &nbsp;&nbsp;<span class="keyword">const</span>
+                <span class="variable">handlerElement</span> = e.<span
+                  class="property"
+                  >currentTarget</span
+                >;<br />
+                });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">once option</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Le gestionnaire ne s'exécute qu'une seule fois
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >, handler, { <br />
+                &nbsp;&nbsp;<span class="property">once</span>:
+                <span class="keyword">true</span>
+                <span class="comment">// S'exécute une seule fois</span><br />
+                });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">passive option</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>
+              <div class="method-description">
+                Améliore les performances pour les événements de scroll
+              </div>
+              <div><strong>Retourne:</strong> void</div>
+            </td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'touchstart'</span
+                >, handler, { <br />
+                &nbsp;&nbsp;<span class="property">passive</span>:
+                <span class="keyword">true</span>
+                <span class="comment">// Améliore les performances</span><br />
+                });
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <footer>
+        <p>
+          Tableau complet des sélecteurs et méthodes JavaScript - Référence
+          exhaustive pour la manipulation du DOM
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      // Filtrage des méthodes par catégorie
+      document.querySelectorAll(".filter-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          // Retirer la classe active de tous les boutons
+          document.querySelectorAll(".filter-btn").forEach((btn) => {
+            btn.classList.remove("active");
+          });
+
+          // Ajouter la classe active au bouton cliqué
+          this.classList.add("active");
+
+          const category = this.getAttribute("data-category");
+          const rows = document.querySelectorAll("#methods-table tbody tr");
+
+          rows.forEach((row) => {
+            if (
+              category === "all" ||
+              row.getAttribute("data-category") === category
+            ) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
+        });
+      });
+
+      // Exemple d'utilisation de certaines méthodes
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("Tableau des méthodes JavaScript chargé !");
+
+        // Exemple d'utilisation de dataset
+        const exampleElement = document.createElement("div");
+        exampleElement.dataset.id = "123";
+        exampleElement.dataset.userRole = "admin";
+
+        console.log("Exemple dataset:", exampleElement.dataset);
+      });
+    </script>
+  </body>
+</html>

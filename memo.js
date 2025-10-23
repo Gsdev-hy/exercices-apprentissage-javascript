@@ -37,6 +37,11 @@ console.log(altimg);
 // div - p : tous les p frères d'un div
 // article h2.title : une balise h2 de classe title dans un article
 
+// Sélecteurs de groupes
+//
+// A, B  -  h1, h2 {} tous les h1 et h2
+// A.B   -  la classe B d'une  balise A
+
 // Attributs :
 //
 // [attribut] : Sélectionner un élément avec un attribut spécifique
@@ -46,6 +51,7 @@ console.log(altimg);
 // a[href^="https://"] : Sélectionner par début de valeur (^=)
 // img[src$=".jpg"] : Sélectionner par fin de valeur ($=)
 // div[data-info*="important"] :  Sélectionner par valeur contenant (*=)
+// [att~="val"] - ex : [class~="danger"]  un des mot contient val
 //
 // En JavaScript : querySelector('[attribut]') : Sélectionner un élément avec un attribut
 const imgAvecAlt = document.querySelector("img[alt]");

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sélecteurs et Méthodes JavaScript</title>
+    <style>
+      :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --accent-color: #e74c3c;
+        --light-color: #ecf0f1;
+        --dark-color: #34495e;
+        --success-color: #2ecc71;
+        --warning-color: #f39c12;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f5f7fa;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        background-color: var(--light-color);
+        border: 1px solid var(--secondary-color);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .filter-btn:hover {
+        background-color: var(--secondary-color);
+        color: white;
+      }
+
+      .filter-btn.active {
+        background-color: var(--secondary-color);
+        color: white;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      th {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 15px;
+        text-align: left;
+        position: sticky;
+        top: 0;
+      }
+
+      td {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      tr:hover {
+        background-color: #f9f9f9;
+      }
+
+      .method-name {
+        font-weight: bold;
+        color: var(--secondary-color);
+      }
+
+      .category {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .category-selector {
+        background-color: var(--success-color);
+        color: white;
+      }
+
+      .category-attribute {
+        background-color: var(--warning-color);
+        color: white;
+      }
+
+      .category-class {
+        background-color: var(--accent-color);
+        color: white;
+      }
+
+      .category-element {
+        background-color: #9b59b6;
+        color: white;
+      }
+
+      .category-event {
+        background-color: #1abc9c;
+        color: white;
+      }
+
+      code {
+        background-color: #f8f9fa;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+        color: var(--dark-color);
+      }
+
+      .example {
+        background-color: #2d3748;
+        color: #e2e8f0;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 10px;
+        font-family: "Courier New", monospace;
+        overflow-x: auto;
+      }
+
+      .example .keyword {
+        color: #63b3ed;
+      }
+
+      .example .string {
+        color: #68d391;
+      }
+
+      .example .comment {
+        color: #a0aec0;
+        font-style: italic;
+      }
+
+      .example .function {
+        color: #fbb6ce;
+      }
+
+      .example .property {
+        color: #faf089;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        color: var(--dark-color);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+
+        th,
+        td {
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Sélecteurs et Méthodes JavaScript</h1>
+        <p class="subtitle">Guide complet pour manipuler le DOM</p>
+      </header>
+
+      <div class="controls">
+        <button class="filter-btn active" data-category="all">Tous</button>
+        <button class="filter-btn" data-category="selector">Sélecteurs</button>
+        <button class="filter-btn" data-category="attribute">Attributs</button>
+        <button class="filter-btn" data-category="class">Classes</button>
+        <button class="filter-btn" data-category="element">Éléments</button>
+        <button class="filter-btn" data-category="event">Événements</button>
+      </div>
+
+      <table id="methods-table">
+        <thead>
+          <tr>
+            <th>Méthode</th>
+            <th>Description</th>
+            <th>Exemple</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sélecteurs -->
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">getElementById()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>Sélectionne un élément par son ID</td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span> element =
+                <span class="function">document.getElementById</span>(<span
+                  class="string"
+                  >'monId'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">getElementsByClassName()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>Sélectionne tous les éléments avec une classe spécifique</td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span> elements =
+                <span class="function">document.getElementsByClassName</span
+                >(<span class="string">'maClasse'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">getElementsByTagName()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              Sélectionne tous les éléments avec un nom de balise spécifique
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span> elements =
+                <span class="function">document.getElementsByTagName</span
+                >(<span class="string">'div'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">querySelector()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              Sélectionne le premier élément correspondant au sélecteur CSS
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span> element =
+                <span class="function">document.querySelector</span>(<span
+                  class="string"
+                  >'.maClasse'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="selector">
+            <td>
+              <span class="method-name">querySelectorAll()</span>
+              <div>
+                <span class="category category-selector">Sélecteur</span>
+              </div>
+            </td>
+            <td>
+              Sélectionne tous les éléments correspondant au sélecteur CSS
+            </td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span> elements =
+                <span class="function">document.querySelectorAll</span>(<span
+                  class="string"
+                  >'div.maClasse'</span
+                >);
+              </div>
+            </td>
+          </tr>
+
+          <!-- Attributs -->
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">getAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>Récupère la valeur d'un attribut d'un élément</td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span> valeur = element.<span
+                  class="function"
+                  >getAttribute</span
+                >(<span class="string">'data-info'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">setAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>Définit ou modifie la valeur d'un attribut</td>
+            <td>
+              <div class="example">
+                element.<span class="function">setAttribute</span>(<span
+                  class="string"
+                  >'data-info'</span
+                >, <span class="string">'nouvelle valeur'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">removeAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>Supprime un attribut d'un élément</td>
+            <td>
+              <div class="example">
+                element.<span class="function">removeAttribute</span>(<span
+                  class="string"
+                  >'data-info'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="attribute">
+            <td>
+              <span class="method-name">hasAttribute()</span>
+              <div>
+                <span class="category category-attribute">Attribut</span>
+              </div>
+            </td>
+            <td>Vérifie si un élément possède un attribut spécifique</td>
+            <td>
+              <div class="example">
+                <span class="keyword">if</span> (element.<span class="function"
+                  >hasAttribute</span
+                >(<span class="string">'data-info'</span>)) {
+                <span class="comment">// Faire quelque chose</span>
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Classes -->
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.add()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>Ajoute une ou plusieurs classes à un élément</td>
+            <td>
+              <div class="example">
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >add</span
+                >(<span class="string">'active'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.remove()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>Supprime une ou plusieurs classes d'un élément</td>
+            <td>
+              <div class="example">
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >remove</span
+                >(<span class="string">'active'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.toggle()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>Ajoute une classe si elle n'existe pas, la supprime sinon</td>
+            <td>
+              <div class="example">
+                element.<span class="property">classList</span>.<span
+                  class="function"
+                  >toggle</span
+                >(<span class="string">'active'</span>);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="class">
+            <td>
+              <span class="method-name">classList.contains()</span>
+              <div><span class="category category-class">Classe</span></div>
+            </td>
+            <td>Vérifie si un élément possède une classe spécifique</td>
+            <td>
+              <div class="example">
+                <span class="keyword">if</span> (element.<span class="property"
+                  >classList</span
+                >.<span class="function">contains</span>(<span class="string"
+                  >'active'</span
+                >)) {
+                <span class="comment">// Faire quelque chose</span>
+                }
+              </div>
+            </td>
+          </tr>
+
+          <!-- Éléments -->
+          <tr data-category="element">
+            <td>
+              <span class="method-name">createElement()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>Crée un nouvel élément HTML</td>
+            <td>
+              <div class="example">
+                <span class="keyword">const</span> newElement =
+                <span class="function">document.createElement</span>(<span
+                  class="string"
+                  >'div'</span
+                >);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">appendChild()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>Ajoute un nœud enfant à la fin d'un élément parent</td>
+            <td>
+              <div class="example">
+                parentElement.<span class="function">appendChild</span
+                >(newElement);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">removeChild()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>Supprime un nœud enfant d'un élément parent</td>
+            <td>
+              <div class="example">
+                parentElement.<span class="function">removeChild</span
+                >(childElement);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">insertBefore()</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>Insère un nœud avant un nœud de référence</td>
+            <td>
+              <div class="example">
+                parentElement.<span class="function">insertBefore</span
+                >(newElement, referenceElement);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">innerHTML</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>Obtient ou définit le contenu HTML d'un élément</td>
+            <td>
+              <div class="example">
+                element.<span class="property">innerHTML</span> =
+                <span class="string"
+                  >'&lt;span&gt;Nouveau contenu&lt;/span&gt;'</span
+                >;
+              </div>
+            </td>
+          </tr>
+          <tr data-category="element">
+            <td>
+              <span class="method-name">textContent</span>
+              <div><span class="category category-element">Élément</span></div>
+            </td>
+            <td>Obtient ou définit le contenu textuel d'un élément</td>
+            <td>
+              <div class="example">
+                element.<span class="property">textContent</span> =
+                <span class="string">'Nouveau texte'</span>;
+              </div>
+            </td>
+          </tr>
+
+          <!-- Événements -->
+          <tr data-category="event">
+            <td>
+              <span class="method-name">addEventListener()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>Attache un gestionnaire d'événement à un élément</td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >, <span class="keyword">function</span>() {
+                <span class="comment">// Code à exécuter au clic</span>
+                });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">removeEventListener()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>Supprime un gestionnaire d'événement d'un élément</td>
+            <td>
+              <div class="example">
+                element.<span class="function">removeEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >, handlerFunction);
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">preventDefault()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>Empêche le comportement par défaut d'un événement</td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'submit'</span
+                >, <span class="keyword">function</span>(e) { e.<span
+                  class="function"
+                  >preventDefault</span
+                >();
+                <span class="comment">// Empêche l'envoi du formulaire</span>
+                });
+              </div>
+            </td>
+          </tr>
+          <tr data-category="event">
+            <td>
+              <span class="method-name">stopPropagation()</span>
+              <div><span class="category category-event">Événement</span></div>
+            </td>
+            <td>Empêche la propagation d'un événement dans le DOM</td>
+            <td>
+              <div class="example">
+                element.<span class="function">addEventListener</span>(<span
+                  class="string"
+                  >'click'</span
+                >, <span class="keyword">function</span>(e) { e.<span
+                  class="function"
+                  >stopPropagation</span
+                >();
+                <span class="comment"
+                  >// Empêche la propagation vers les parents</span
+                >
+                });
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <footer>
+        <p>
+          Tableau des sélecteurs et méthodes JavaScript - Référence complète
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      // Filtrage des méthodes par catégorie
+      document.querySelectorAll(".filter-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          // Retirer la classe active de tous les boutons
+          document.querySelectorAll(".filter-btn").forEach((btn) => {
+            btn.classList.remove("active");
+          });
+
+          // Ajouter la classe active au bouton cliqué
+          this.classList.add("active");
+
+          const category = this.getAttribute("data-category");
+          const rows = document.querySelectorAll("#methods-table tbody tr");
+
+          rows.forEach((row) => {
+            if (
+              category === "all" ||
+              row.getAttribute("data-category") === category
+            ) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
