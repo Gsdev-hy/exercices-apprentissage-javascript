@@ -3,6 +3,7 @@
 // 1
 
 const display_names = document.getElementById("display_names");
+const display_meteo = document.getElementById("display_meteo");
 
 let htmlBlock = "<ul>";
 
@@ -34,14 +35,14 @@ let city = document.getElementById("city");
 let country = document.getElementById("country");
 let postalCode = document.getElementById("postalCode");
 let askMeteo = document.getElementById("btn");
-let display_meteo = document.getElementById("display_meteo");
 
 askMeteo.addEventListener("click", () => {
   try {
     // postalCodeIsValid();
     // countryIsValid(Input.value);
     // cityIsValid(Input.value);
-    getMeteo(city.value, country.value, postalCode.value);
+    alert(`Votre nom est ${nameInput.value}`);
+    alert(`Votre age est ${ageInput.value}`);
   } catch (error) {
     alert("Erreur : " + error.message);
     return;
@@ -58,59 +59,17 @@ async function getMeteo(
       // `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=${OPEN_WEATHER_KEY}`
       `https://api.openweathermap.org/data/2.5/weather?q=${city},${postalCode},${country}&appid=${OPEN_WEATHER_KEY}`
     );
-    if (!response.ok) {
-      throw new Error(`Erreur API: ${response.status}`);
-    }
     console.log(response);
     let data = await response.json();
     console.log(data);
-
-    // Formater les données en HTML
-    const htmlContent = formatMeteoToHTML(data);
-    display_meteo.innerHTML = htmlContent;
+    display_meteo.textContent = data;
+    data.forEach((key) => {
+      console.log(data.key + "\n");
+      display_meteo.textContent += data.key + "\n";
+    });
   } catch (error) {
-    console.log("Erreur de connexion:", error);
-    display_meteo.innerHTML = `<p style="color: red;">Erreur: ${error.message}</p>`;
+    console.log("Erreur de connexion.");
   }
-}
-
-function formatMeteoToHTML(data) {
-  // Conversion de Kelvin à Celsius (ou utiliser le paramètre units=metric dans l'URL)
-  const tempCelsius = data.main.temp - 273.15;
-  const tempFeelCelsius = data.main.feels_like - 273.15;
-
-  return `
-    <div class="meteo-info">
-      <h3>Météo pour ${data.name}, ${data.sys.country}</h3>
-      <ul>
-        <li><strong>Température:</strong> ${tempCelsius.toFixed(1)}°C</li>
-        <li><strong>Ressenti:</strong> ${tempFeelCelsius.toFixed(1)}°C</li>
-        <li><strong>Humidité:</strong> ${data.main.humidity}%</li>
-        <li><strong>Pression:</strong> ${data.main.pressure} hPa</li>
-        <li><strong>Conditions:</strong> ${data.weather[0].description}</li>
-        <li><strong>Vent:</strong> ${data.wind.speed} m/s</li>
-        <li><strong>Visibilité:</strong> ${(data.visibility / 1000).toFixed(
-          1
-        )} km</li>
-      </ul>
-      
-      <h4>Détails supplémentaires:</h4>
-      <ul>
-        <li><strong>Température min:</strong> ${(
-          data.main.temp_min - 273.15
-        ).toFixed(1)}°C</li>
-        <li><strong>Température max:</strong> ${(
-          data.main.temp_max - 273.15
-        ).toFixed(1)}°C</li>
-        <li><strong>Lever du soleil:</strong> ${new Date(
-          data.sys.sunrise * 1000
-        ).toLocaleTimeString()}</li>
-        <li><strong>Coucher du soleil:</strong> ${new Date(
-          data.sys.sunset * 1000
-        ).toLocaleTimeString()}</li>
-      </ul>
-    </div>
-  `;
 }
 
 function postalCodeIsValid() {}
@@ -119,8 +78,7 @@ function countryIsValid() {}
 
 function cityCodeIsValid() {}
 
-// Appel initial avec des valeurs par défaut
-getMeteo();
+getMeteo(city.value, country.value, postalCode.value);
 
 // async function findLatitudeAndLongitude() {
 //   try {
