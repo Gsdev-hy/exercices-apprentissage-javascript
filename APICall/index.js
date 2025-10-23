@@ -38,9 +38,10 @@ let display_meteo = document.getElementById("display_meteo");
 
 askMeteo.addEventListener("click", () => {
   try {
-    // postalCodeIsValid();
-    // countryIsValid(Input.value);
-    // cityIsValid(Input.value);
+    cityIsValid(city.value);
+    postalCodeIsValid(postalCode.value);
+    countryIsValid(country.value);
+
     getMeteo(city.value, country.value, postalCode.value);
   } catch (error) {
     alert("Erreur : " + error.message);
@@ -113,11 +114,87 @@ function formatMeteoToHTML(data) {
   `;
 }
 
-function postalCodeIsValid() {}
+// Fonctions de validation
+function postalCodeIsValid(postalCode, country = "FR") {
+  if (!postalCode || postalCode.trim() === "") {
+    throw new Error("Le code postal est obligatoire");
+  }
 
-function countryIsValid() {}
+  const postalCodePatterns = {
+    FR: /^\d{5}$/, // France: 5 chiffres
+    US: /^\d{5}(-\d{4})?$/, // USA: 5 chiffres optionnellement suivis de -4 chiffres
+    GB: /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/, // UK: format complexe
+    DE: /^\d{5}$/, // Allemagne: 5 chiffres
+    CA: /^[A-Z]\d[A-Z] ?\d[A-Z]\d$/, // Canada: A1A 1A1
+    default: /^\d{4,10}$/, // Format par défaut pour autres pays
+  };
 
-function cityCodeIsValid() {}
+  const pattern = postalCodePatterns[country] || postalCodePatterns["default"];
+
+  if (!pattern.test(postalCode.trim())) {
+    throw new Error(`Code postal invalide pour ${country}`);
+  }
+
+  return true;
+}
+
+function countryIsValid(country) {
+  if (!country || country.trim() === "") {
+    throw new Error("Le pays est obligatoire");
+  }
+
+  // Liste des codes pays ISO 3166-1 alpha-2 valides
+  const validCountries = [
+    "FR",
+    "US",
+    "GB",
+    "DE",
+    "IT",
+    "ES",
+    "CA",
+    "BE",
+    "CH",
+    "LU",
+    "NL",
+    "PT",
+    "AU",
+    "JP",
+    "CN",
+    "BR",
+    "RU",
+    "IN",
+    "MX",
+    "ZA",
+    // Ajoutez d'autres pays selon vos besoins
+  ];
+
+  const countryUpper = country.trim().toUpperCase();
+
+  if (!validCountries.includes(countryUpper)) {
+    throw new Error(
+      `Code pays invalide. Utilisez un code ISO 3166-1 alpha-2 (ex: FR, US, GB)`
+    );
+  }
+
+  return countryUpper;
+}
+
+function cityIsValid(city) {
+  if (!city || city.trim() === "") {
+    throw new Error("La ville est obligatoire");
+  }
+
+  // Validation du nom de ville
+  const cityRegex = /^[a-zA-ZÀ-ÿ\s\-'\.]{2,50}$/;
+
+  if (!cityRegex.test(city.trim())) {
+    throw new Error(
+      "Nom de ville invalide. Utilisez uniquement des lettres, espaces, traits d'union et apostrophes"
+    );
+  }
+
+  return city.trim();
+}
 
 // Appel initial avec des valeurs par défaut
 getMeteo();
